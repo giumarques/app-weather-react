@@ -1,5 +1,8 @@
 import logo from "./logo.svg";
 import "./App.css";
+import Weather from "./Weather";
+import "./Weather.css";
+
 
 function App() {
   return (
@@ -7,6 +10,7 @@ function App() {
       <div className="container">
         <header className="App-header">
           <h1>Weather app</h1>
+          <Weather />
           <footer>
             This project was coded by{" "}
             <a
