@@ -10,7 +10,7 @@ function App() {
       <div className="container">
         <header className="App-header">
           <h1>Weather app</h1>
-          <Weather />
+          <Weather defaultCity="London"/>
           <footer>
             This project was coded by{" "}
             <a
