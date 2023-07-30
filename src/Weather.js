@@ -1,7 +1,27 @@
-import React from "react";
+import React, { useState} from "react";
+import axios from "axios";
 import "./Weather.css";
 
 export default function Weather() {
+  const [ready, setReady] = useState(false);
+  const [weatherData, setWeatherData] = useState({ready: false});
+
+  function handleResponse(response) {
+    console.log(response.data);
+    setWeatherData({
+      ready: true,
+      temperature: response.data.main.temp,
+      humidity: response.data.humidity,
+      description: response.data.weather[0].description,
+      iconUrl: "https://ssl.gstatic.com/onebox/weather/64/sunny.png",
+      wind: response.data.wind.speed,
+      city: response.data.name,
+      date: "Tueday 07:00"
+    });
+
+  }
+
+  if (weatherData.ready) {
     return (
       <div className="Weather">
         <form>
@@ -23,33 +43,44 @@ export default function Weather() {
             </div>
           </div>
         </form>
-        <h1>Lisbon</h1>
+        <h1>{weatherData.city}</h1>
         <ul>
-          <li>Wednesday 07:00</li>
-          <li>Mostly cloudy</li>
+          <li>{weatherData.date}}</li>
+          <li className="text-capitalize">{weatherData.description}</li>
         </ul>
         <div className="row mt-3">
           <div className="col-6">
             <div className="clearfix">
               <img
-                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAAQBJREFUaN7t2csNwyAMBmBGYYSMwhgdgxEYjRW6ARu4HNyqB0CKednElf5b2/hLSALGAICRHKMABSjgUMDdD7xfLifkxByoJOJ33O3/nwHIhVgsKDWKriXhb+0WQD6wJxZegvhlADzrcUDhpeFlpwLyAa5BZ711Na4pgAXFNxFdABw2K4r/R9iRgLiw+N89MQSATxvYFN8F2DB0qkOJCggbi/8m9AASA0AiAXBuA0ziKIDACBAogMgIECkAYBUFKEABzwOIf4yKf5HJnkqIn8wxmk775y5oxC8pj1jUH9FWEd/YOqK1eERz94j2euFqUCF7NzjYbzHpLqUCFKCAJfkAq7RimK7qUtAAAAAASUVORK5CYII="
-                alt="sunny"
+                src={weatherData.iconUrl}
+                alt={weatherData.description}
                 className="float-left"
               />
-                <span className="temperature">6</span>
-                <span className="unit">°C</span>
+              <span className="temperature">{Math.round(weatherData.temperature)}</span>
+              <span className="unit">°C</span>
             </div>
           </div>
           <div className="col-6">
             <ul>
               <li>Preciptitation: 15%</li>
-              <li>Humidity: 72%</li>
-              <li>Wind:13 km/h</li>
+              <li>Humidity: {weatherData.humidity}%</li>
+              <li>Wind: {weatherData.wind} km/h</li>
             </ul>
           </div>
         </div>
-        Hello from Weather
       </div>
     );
-    
+
+  } else {
+    const apiKey = "e450bc345a80a08ada69fd5c714d871d";
+    let city = "London";
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+    axios.get(apiUrl).then(handleResponse);
+
+    return "Loading...";
+  }
+
 }
+
+  
+    
