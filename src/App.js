@@ -15,7 +15,7 @@ function App() {
             This project was coded by{" "}
             <a
               href="https://github.com/giumarques/app-weather-react"
-              target="_blank"
+              target="_blank" className="footer"
             >
               open-sourced on GitHub
             </a>
