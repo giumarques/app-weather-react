@@ -7,23 +7,23 @@ export default function Weather(props) {
   const [city, setCity] = useState(props.defaultCity);
   const [ready, setReady] = useState(false);
   const [weatherData, setWeatherData] = useState({ready: false});
+  
   function handleResponse(response) {
-
     setWeatherData({
       ready: true,
       temperature: response.data.main.temp,
       humidity: response.data.humidity,
       description: response.data.weather[0].description,
-      iconUrl: "https://ssl.gstatic.com/onebox/weather/64/sunny.png",
+      icon: response.data.weather[0].icon,
       wind: response.data.wind.speed,
       city: response.data.name,
       date: new Date(response.data.dt * 1000),
     });
-
   }
 
+
   function search() {
-     const apiKey = "e450bc345a80a08ada69fd5c714d871d";
+     const apiKey = "5f472b7acba333cd8a035ea85a0d4d4c";
      let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
      axios.get(apiUrl).then(handleResponse);
   }
